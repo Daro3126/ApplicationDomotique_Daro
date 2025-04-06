@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.devmobile.applicationdomotique.Api
-import com.devmobile.applicationdomotique.R
 import com.devmobile.applicationdomotique.data.DeleteData
 import com.devmobile.applicationdomotique.data.UrlData
 

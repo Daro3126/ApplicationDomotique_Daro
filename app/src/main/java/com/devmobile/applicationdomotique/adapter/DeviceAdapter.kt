@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.devmobile.applicationdomotique.R
 import com.devmobile.applicationdomotique.activity.CommandActivity
 import com.devmobile.applicationdomotique.activity.ListDevicesActivity
-import com.devmobile.applicationdomotique.activity.ListHousesActivity
 import com.devmobile.applicationdomotique.data.DeviceData
 
 
@@ -46,6 +45,7 @@ data class DeviceAdapter(
         val btFermer = rowView.findViewById<Button>(R.id.btnFermer)
         val btStopper = rowView.findViewById<Button>(R.id.btnStopper)
         val deviceData = getItem(position) as DeviceData
+        val devices = ArrayList<DeviceData>()
 
         id.text = "ID : "+deviceData.id
 
@@ -89,7 +89,7 @@ data class DeviceAdapter(
                 btStopper.visibility = View.VISIBLE
             }
             if(deviceData.openingMode==2){
-                etat.text ="ETAT : Volet stopé "
+                etat.text ="ETAT : Volet stoppé "
                 btEteinde.visibility = View.GONE
                 btFermer.visibility = View.VISIBLE
                 btAllumer.visibility = View.GONE
@@ -152,81 +152,35 @@ data class DeviceAdapter(
             }
         }
         btAllumer.setOnClickListener {
-            val intent = Intent(context, CommandActivity::class.java)
-            intent.putExtra("DEVICE_ID", deviceData.id)
-            if (context is ListDevicesActivity) {
-                val token = context.intent.getStringExtra("USER_TOKEN")
-                val houseId= context.intent.getStringExtra("HOUSE_ID")
-                val command :String="TURN ON"
-
-                intent.putExtra("USER_TOKEN", token)
-                intent.putExtra("HOUSE_ID", houseId)
-                intent.putExtra("COMMAND", command)
-            }
-
-            context.startActivity(intent)
+            sendCommand(deviceData.id,"TURN ON")
         }
         btFermer.setOnClickListener {
-            val intent = Intent(context, CommandActivity::class.java)
-            intent.putExtra("DEVICE_ID", deviceData.id)
-            if (context is ListDevicesActivity) {
-                val token = context.intent.getStringExtra("USER_TOKEN")
-                val houseId= context.intent.getStringExtra("HOUSE_ID")
-                val command :String="CLOSE"
+            sendCommand(deviceData.id,"CLOSE")
 
-                intent.putExtra("USER_TOKEN", token)
-                intent.putExtra("HOUSE_ID", houseId)
-                intent.putExtra("COMMAND", command)
-            }
-
-            context.startActivity(intent)
         }
         btOuvrir.setOnClickListener {
-            val intent = Intent(context, CommandActivity::class.java)
-            intent.putExtra("DEVICE_ID", deviceData.id)
-            if (context is ListDevicesActivity) {
-                val token = context.intent.getStringExtra("USER_TOKEN")
-                val houseId= context.intent.getStringExtra("HOUSE_ID")
-                val command :String="OPEN"
-
-                intent.putExtra("USER_TOKEN", token)
-                intent.putExtra("HOUSE_ID", houseId)
-                intent.putExtra("COMMAND", command)
-            }
-
-            context.startActivity(intent)
+            sendCommand(deviceData.id,"OPEN")
         }
         btEteinde.setOnClickListener {
-            val intent = Intent(context, CommandActivity::class.java)
-            intent.putExtra("DEVICE_ID", deviceData.id)
-            if (context is ListDevicesActivity) {
-                val token = context.intent.getStringExtra("USER_TOKEN")
-                val houseId= context.intent.getStringExtra("HOUSE_ID")
-                val command :String="TURN OFF"
+            sendCommand(deviceData.id,"TURN OFF")
 
-                intent.putExtra("USER_TOKEN", token)
-                intent.putExtra("HOUSE_ID", houseId)
-                intent.putExtra("COMMAND", command)
-            }
-
-            context.startActivity(intent)
         }
         btStopper.setOnClickListener {
-            val intent = Intent(context, CommandActivity::class.java)
-            intent.putExtra("DEVICE_ID", deviceData.id)
-              if (context is ListDevicesActivity) {
-                val token = context.intent.getStringExtra("USER_TOKEN")
-                val houseId= context.intent.getStringExtra("HOUSE_ID")
-                val command :String="STOP"
-
-                intent.putExtra("USER_TOKEN", token)
-                intent.putExtra("HOUSE_ID", houseId)
-                intent.putExtra("COMMAND", command)
-            }
-
-            context.startActivity(intent)
+            sendCommand(deviceData.id,"STOP")
         }
+
         return rowView
     }
-
+    private fun sendCommand(deviceId: String, command: String) {
+        val intent = Intent(context, CommandActivity::class.java)
+        intent.putExtra("DEVICE_ID", deviceId)
+        if (context is ListDevicesActivity) {
+            val token = context.intent.getStringExtra("USER_TOKEN")
+            val houseId = context.intent.getStringExtra("HOUSE_ID")
+            intent.putExtra("USER_TOKEN", token)
+            intent.putExtra("HOUSE_ID", houseId)
+            intent.putExtra("COMMAND", command)
+        }
+        context.startActivity(intent)
+    }
 }

@@ -3,17 +3,9 @@ package com.devmobile.applicationdomotique.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.devmobile.applicationdomotique.Api
-import com.devmobile.applicationdomotique.R
 import com.devmobile.applicationdomotique.data.CommandData
-import com.devmobile.applicationdomotique.data.DeleteData
-import com.devmobile.applicationdomotique.data.LoginData
-import com.devmobile.applicationdomotique.data.RegisterData
-import com.devmobile.applicationdomotique.data.TokenData
 import com.devmobile.applicationdomotique.data.UrlData
 
 class CommandActivity : AppCompatActivity() {
@@ -30,6 +22,8 @@ class CommandActivity : AppCompatActivity() {
         command = intent.getStringExtra("COMMAND").toString()
         deviceId = intent.getStringExtra("DEVICE_ID").toString()
         houseId = intent.getStringExtra("HOUSE_ID").toString().toInt()
+
+
 
         command(houseId,command,deviceId,token)
     }
